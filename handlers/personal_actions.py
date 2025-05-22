@@ -78,4 +78,3 @@ async def history(message: types.Message):
 @personal_router.message(IsOwnerFilter(), commands=["ping"], commands_prefix="!/")
 async def cmd_ping_bot(message: types.Message):
     await message.reply("<b>👊 Up & Running!</b>")
-

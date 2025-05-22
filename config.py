@@ -1,13 +1,19 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
-# Find .env file with os variables
+# Загружаем переменные окружения из файла
 load_dotenv("dev.env")
 
-# retrieve config variables
+# Получаем токен бота
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+# Получаем список владельцев бота
 try:
-    # BOT_TOKEN = os.getenv('BOT_TOKEN')
-    BOT_TOKEN = "7947674605:AAGfshRpaSxE8I8FaFLCcsvZXDmxTOhB3Ps"
-    BOT_OWNERS = [int(x) for x in os.getenv('BOT_OWNERS').split(",")]
-except (TypeError, ValueError) as ex:
-    print("Error while reading config:", ex)
+    BOT_OWNERS = [int(x.strip()) for x in os.getenv("BOT_OWNERS", "").split(",") if x.strip()]
+except ValueError as ex:
+    print("Ошибка при чтении BOT_OWNERS:", ex)
+    BOT_OWNERS = []
+
+# Проверка на отсутствие токена
+if not BOT_TOKEN:
+    raise RuntimeError("❌ Переменная окружения BOT_TOKEN не установлена!")
